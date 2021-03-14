@@ -54,11 +54,14 @@ application {
 tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()
+    
 }
-
 
 task stage(dependsOn: ['shadowJar'])
 shadowJar.mustRunAfter clean
+
+
+
 
 
 
