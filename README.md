@@ -6,6 +6,7 @@ and the last one is the number you want to add between first and second index.
 program creates an arrayList and add the input value between indexes
 
 example input
+(PRESS ENTER AFTER EACH VALUE)
 Array:
 5
 5
