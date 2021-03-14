@@ -26,6 +26,6 @@ example output:
 15
 5
 
-
+heroku: https://frozen-dusk-38627.herokuapp.com/compute
 
 [![Build Status](https://travis-ci.org/ErdemAkz/myDemoApp.svg?branch=main)](https://travis-ci.org/ErdemAkz/myDemoApp)
