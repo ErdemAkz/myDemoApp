@@ -4,7 +4,23 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
+
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+
+import static spark.Spark.get;
+import static spark.Spark.port;
+import static spark.Spark.post;
+
+
+import spark.ModelAndView;
+import spark.template.mustache.MustacheTemplateEngine;
+
 
 public class App {
     
@@ -14,6 +30,67 @@ public class App {
         for(int i=0; i<10;i++){
             list.add (0); 
         }
+
+        port(getHerokuAssignedPort());
+
+        get("/", (req, res) -> "Hello, World");
+
+        post("/compute", (req, res) -> {
+            //System.out.println(req.queryParams("input1"));
+            //System.out.println(req.queryParams("input2"));
+  
+            String input1 = req.queryParams("input1");
+            java.util.Scanner sc1 = new java.util.Scanner(input1);
+            sc1.useDelimiter("[;\r\n]+");
+            java.util.ArrayList<Integer> inputList = new java.util.ArrayList<>();
+            while (sc1.hasNext())
+            {
+              int value = Integer.parseInt(sc1.next().replaceAll("\\s",""));
+              System.out.println(value);
+              inputList.add(value);
+            }
+            sc1.close();
+            
+  
+  
+            String input2 = req.queryParams("input2").replaceAll("\\s","");
+            System.out.println("input2 "+ input2);
+            Integer sayi1 = Integer.parseInt(input2);
+
+            input2 = req.queryParams("input3").replaceAll("\\s","");
+            System.out.println("input3 "+ input2);
+            Integer sayi2 = Integer.parseInt(input2);
+
+            input2 = req.queryParams("input4").replaceAll("\\s","");
+            System.out.println("input4 "+ input2);
+            Integer sayi3 = Integer.parseInt(input2);
+
+            System.out.println(sayi1+" "+ sayi2+" "+sayi3);
+            App.addValToRange(inputList, sayi1,sayi2,sayi3);
+
+            Map<String, ArrayList<Integer>> map = new HashMap<String, ArrayList<Integer>>();
+            map.put("result", inputList);
+            System.out.println(inputList.toString());
+            
+  
+            
+  
+            
+            return new ModelAndView(map, "compute.mustache");
+          }, new MustacheTemplateEngine());
+  
+          get("/compute",
+            (rq, rs) -> {
+              Map<String, String> map = new HashMap<String, String>();
+              map.put("result", "not computed yet!");
+              return new ModelAndView(map, "compute.mustache");
+            },
+            new MustacheTemplateEngine());
+
+
+
+
+/*
         Scanner s = new Scanner(System.in);
         System.out.println("Sirasiyla firstIndex[0-9], lastINdex[0-9] ve eklenecek sayiyi girin");
         int first = s.nextInt();
@@ -24,9 +101,17 @@ public class App {
         for(int i=0; i<list.size(); i++){
             System.out.println(list.get(i));
         }
-                
+        s.close();
+ */               
     }
 
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
 
 
     public static void addValToRange(ArrayList<Integer> list, Integer first, Integer last, Integer val){

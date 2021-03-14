@@ -12,12 +12,12 @@ import java.util.ArrayList;
 class AppTest {
     
     @Test void addValToRangeWorks(){
-        App app = new App();
+       // App app = new App();
         ArrayList<Integer> list = new ArrayList<>();
         for(int i=0; i<5;i++){
             list.add (i); 
         }
-        app.addValToRange(list,1,3,4);
+        App.addValToRange(list,1,3,4);
 
         assertEquals(0, list.get(0));
         assertEquals(5, list.get(1));
